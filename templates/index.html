@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>eduASD</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <section class="msger">
+    <header class="msger-header">
+      <div class="msger-header-title">
+        <div style = "float:left">
+          <img src="{{ url_for('static', filename= 'logo.png') }}" alt="eduASDlogo">
+        </div>
+        <div style="float:right; padding-top: 35px;">
+            <button  id="btnMute" class="msger-send-btn" onclick="soundControl()" style="min-width: 65px;"  >Mute Chatbot Audio</button>
+            <button  id="txtSpeechControl" class="msger-send-btn" onclick="textToSpeechControl()" style="min-width: 110px;"  >Enable Text To Speech</button>
+      </div>
+      </div>
+    </header>
+
+    <audio id="popNoise">
+      <source src="{{ url_for('static', filename= 'pop.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div style="width:100%; background-color: #417589;" id="secondaryOptions">
+      <div style="float:left; padding-top: 8px;">
+        <label style="color:white" for="musicChooser">  UPLOAD AUDIO FILES: </label>
+        <input style="color:white"  id="musicChooser" type="file" onchange="readFile(this.files);">
+      </div>
+
+      <div style="float:right">
+        <label style="color:white" for="colorInputColorBack">BG COLOUR:</label>
+        <input type="color" id="colorInputColorBack" class="msger-send-btn" onchange="changeColorBack()">
+        <label style="color:white" for="colorInputColorText"> HEADER COLOUR:</label>
+        <input type="color" id="colorInputColor" class="msger-send-btn" onchange="changeColor()">
+      </div>
+    </div>
+    
+    <main class="msger-chat">
+      <div class="msg left-msg">
+        <div class="msg-img" style="background-image: url({{ url_for('static', filename='images/bot.jpg') }});"></div>
+
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">EduASD</div>
+            <div class="msg-info-time">12:45</div>
+          </div>
+
+          <div class="msg-text">
+            Hello, I am a chatbot designed to educate and mitigate the misconceptions of autism to the general public! To start you can ask questions such as ""what is autism"" and expand your knowledge from there :)
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+  
+    <form class="msger-inputarea">
+      <input type="text" class="msger-input" id="textInput" placeholder="Enter your message..." spellcheck="true">
+      <button type="submit" class="msger-send-btn" id="submitBtn">Send</button>
+    </form>
+  </section>
+  <!-- partial -->
+  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
+  <script>
+    var pop = document.getElementById("popNoise")
+    var popBtn = document.getElementById("btnMute");
+
+    var popOnOrOff = 1
+
+    var msg = new SpeechSynthesisUtterance();
+    var textToSpeechBtn = document.getElementById("txtSpeechControl");
+
+    msg.rate = 1;
+
+    var textToSpeechOnOrOff = 0
+
+    var passwordInt = 0
+
+
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+      var recognition = new SpeechRecognition();
+
+
+
+    const msgerForm = get(".msger-inputarea");
+    const msgerInput = get(".msger-input");
+    const msgerChat = get(".msger-chat");
+
+
+    const BOT_IMG = "{{ url_for('static', filename='images/bot.jpg') }}";
+    const PERSON_IMG = "{{ url_for('static', filename='images/user.jpg') }}";
+    const BOT_NAME = "EduASD";
+    const PERSON_NAME = "You";
+
+    msgerForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const msgText = msgerInput.value;
+      if (!msgText) return;
+      if(passwordInt != 0){
+        appendMessage(PERSON_NAME, PERSON_IMG, "right", "**********");
+        document.getElementById('textInput').type = 'text';
+        passwordInt = 0
+      }
+      else{
+        appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+      }
+      msgerInput.value = "";
+      botResponse(msgText);
+    });
+
+    function playPop(){
+      pop.play();
+    }
+
+    function soundControl(){
+      if(popOnOrOff == 1){
+        popOnOrOff = 0
+        popBtn.innerHTML = "Unmute Chatbot Audio";
+      }
+      else{
+        popOnOrOff = 1
+        popBtn.innerHTML = "Mute Chatbot Audio";
+      }
+    }
+
+    function textToSpeechControl(){
+      if(textToSpeechOnOrOff == 1){
+        textToSpeechOnOrOff = 0
+        textToSpeechBtn.innerHTML = "Enable Text To Speech";
+      }
+      else{
+        textToSpeechOnOrOff = 1
+        textToSpeechBtn.innerHTML = "Disable Text To Speech";
+      }
+    }
+
+    function appendMessage(name, img, side, text) {
+      //   Simple solution for small apps
+      const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+    </div>
+
+    <div class="msg-text">${text}</div>
+  </div>
+</div>
+`;
+
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+
+    function botResponse(rawText) {
+
+      // Bot Response
+      $.get("/get", { msg: rawText }).done(function (data) {
+        console.log(rawText);
+        console.log(data);
+        const msgText = data;
+        appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
+
+        if(popOnOrOff == 1){
+          playPop();
+        }
+
+
+
+        if(msgText == "Please Enter Your Student Password"){
+          passwordInt = 1
+          document.getElementById('textInput').type = 'password';
+        }
+
+        if(textToSpeechOnOrOff == 1){
+          msg.text = msgText;
+          speechSynthesis.speak(msg);
+        }
+
+      });
+
+    }
+
+
+    // Utils
+    function get(selector, root = document) {
+      return root.querySelector(selector);
+    }
+
+
+    function changeColor(){
+      let color = document.getElementById('colorInputColor').value;
+      document.getElementsByTagName("HEADER")[0].style.backgroundColor=color
+      document.getElementsByTagName("FORM")[0].style.backgroundColor=color
+    }
+
+    function changeColorBack(){
+      let colorBack = document.getElementById('colorInputColorBack').value;
+      document.getElementsByTagName("MAIN")[0].style.backgroundColor=colorBack
+      document.getElementById("secondaryOptions").style.backgroundColor=colorBack
+    }
+
+    function readFile(files) {
+		var fileReader = new FileReader();
+			fileReader.readAsArrayBuffer(files[0]);
+			fileReader.onload = function(e) {
+				playAudioFile(e.target.result);
+				console.log(("Filename: '" + files[0].name + "'"), ( "(" + ((Math.floor(files[0].size/1024/1024*100))/100) + " MB)" ));
+			}
+	}
+	function playAudioFile(file) {
+		var context = new window.AudioContext();
+			context.decodeAudioData(file, function(buffer) {
+				var source = context.createBufferSource();
+					source.buffer = buffer;
+					source.loop = true;
+					source.connect(context.destination);
+					source.start(0);
+			});
+	}
+
+    
+
+
+
+  </script>
+
+</body>
+
+</html>
