@@ -1,3 +1,7 @@
+#FreeBirdsCrew (2020) CHATBOTS - Using Natural Language Processing and Tensorflow. Available At: https://github.com/FreeBirdsCrew/AI_ChatBot_Python/blob/master/Contextual%20Chatbot%20-%20NLP%20and%20Tensorflow.ipynb [Accessed: 15/04/2023]
+#AI Studio (2021) Web Scrapping Chatbot with Python. Available At: https://www.youtube.com/watch?v=Je7M_K3IANI [Accessed: 1/04/2023]
+
+
 #!/usr/bin/env python
 # coding: utf-8
 
