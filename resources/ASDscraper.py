@@ -1,3 +1,6 @@
+#NijatZeynalov (2020) Scraper Chatbot: alisa.py. Available At: https://github.com/NijatZeynalov/Scraper-Chatbot/blob/master/alisa.py [Accessed: 8/03/2023]
+#AI Studio (2021) Web Scrapping Chatbot with Python. Available At: https://www.youtube.com/watch?v=Je7M_K3IANI [Accessed: 25/03/2023]
+
 #!/usr/bin/env python
 # coding: utf-8
 
