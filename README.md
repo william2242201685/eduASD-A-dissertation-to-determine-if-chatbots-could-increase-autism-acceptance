@@ -32,6 +32,15 @@ Step 4: You can now test the chatbot application. Try inputting common misconcep
 Kindest regards, 
 William Thomas [st20139043]
 
+# Link To Exe File
+
+https://www.dropbox.com/sh/1r2duzextw1el5v/AAB95UTHePyILPyXQ8uKPdNAa?dl=0
+
+# Video Tutorial
+
+https://www.youtube.com/watch?v=ZtCo9mSOThs
+
+
 # References For Code
 
 FreeBirdsCrew (2020) CHATBOTS - Using Natural Language Processing and Tensorflow. Available At: https://github.com/FreeBirdsCrew/AI_ChatBot_Python/blob/master/Contextual%20Chatbot%20-%20NLP%20and%20Tensorflow.ipynb [Accessed: 15/04/2023]
