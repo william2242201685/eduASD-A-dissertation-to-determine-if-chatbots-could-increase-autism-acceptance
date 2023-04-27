@@ -31,3 +31,13 @@ Step 4: You can now test the chatbot application. Try inputting common misconcep
 
 Kindest regards, 
 William Thomas [st20139043]
+
+# References For Code
+
+FreeBirdsCrew (2020) CHATBOTS - Using Natural Language Processing and Tensorflow. Available At: https://github.com/FreeBirdsCrew/AI_ChatBot_Python/blob/master/Contextual%20Chatbot%20-%20NLP%20and%20Tensorflow.ipynb [Accessed: 15/04/2023]
+
+AI Studio (2021) Web Scrapping Chatbot with Python. Available At: https://www.youtube.com/watch?v=Je7M_K3IANI [Accessed: 25/03/2023]
+
+NijatZeynalov (2020) Scraper Chatbot: alisa.py. Available At: https://github.com/NijatZeynalov/Scraper-Chatbot/blob/master/alisa.py [Accessed: 8/03/2023]
+
+StudyGyaan (2020) Chatbot for Coronavirus in Python Using Flask, Chatterbot, Django. Available At: https://www.youtube.com/watch?v=UVKSrj7cxak [Accessed: 28/03/2023]
