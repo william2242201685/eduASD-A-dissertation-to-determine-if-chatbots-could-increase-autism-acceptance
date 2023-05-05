@@ -2,10 +2,15 @@
 
 # Contents For Code
 The code to build and run the chatbot can be located under EDUasd chatbot.py
+
 The code to scrape the websites and build the chatbots intents and responses can be located in the resources folder under ASDscraper.py
+
 The HTML code can be located under the templates folder as index.html
+
 The CSS code can be located under the static folder, under the CSS folder as style.css
 
+
+# Instructions for EXE installation
 Dear Participant.
 
 I would like to thank you personally for taking your time to help towards my research towards discovering the openings of chatbot and data scraping technologies towards the education, acceptance, and wellbeing of autism in the United Kingdom.
